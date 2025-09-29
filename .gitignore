@@ -1,0 +1,12 @@
+# Ignorer les données
+*.csv
+*.json
+
+# Ignorer les fichiers Python créés automatiquement
+__pycache__/
+*.pyc
+
+# Ignorer l'environnement virtuel et la base de données locale
+venv/
+.venv/
+.idea/
