@@ -25,7 +25,7 @@ Speed (mph)	×0.44704	vent_vitesse_ms
 Precip. Accum. (in)	×25.4	pluie_accum_mm
 Date + Time	Concaténation	date_heure_utc
 
-Exporter vers Sheets
+
 Phase 2: Extraction et Transformation du Fichier JSON (Infoclimat)
 Le fichier JSON est en unités Métriques, la transformation est donc plus légère et se concentre sur l'harmonisation du schéma cible :
 
@@ -34,7 +34,7 @@ vent_moyen (km/h)	÷3.6	vent_vitesse_ms
 pluie_1h ou pluie_3h	Sélection de la valeur	pluie_accum_mm
 dh_utc	Formatage de date	date_heure_utc
 
-Exporter vers Sheets
+
 Phase 3: Chargement et Audit (MongoDB)
 Après l'unification, tous les enregistrements sont insérés dans la collection donnees_horaires de la base de données cible.
 
@@ -100,4 +100,4 @@ Pour lancer la suite de tests automatisés :
 PowerShell
 
 python -m unittest test_etl_meteo.py
-Résultat attendu en cas de succès : Ran 4 tests in X.XXs - O
+Résultat attendu en cas de succès : Ran 4 tests in X.XXs - Ok
