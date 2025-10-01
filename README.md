@@ -101,3 +101,15 @@ PowerShell
 
 python -m unittest test_etl_meteo.py
 Résultat attendu en cas de succès : Ran 4 tests in X.XXs - Ok
+
+
+
+Automatisation des Tests et Audit de Qualité
+Le projet intègre des scripts d'audit de qualité pour valider le processus E-T-L :
+
+Script	Rôle	Commande
+test_etl_meteo.py	Tests d'Intégrité : Lance l'E-T-L sur une DB de test temporaire et vérifie les 5 critères essentiels (complétude, types, etc., y compris les plages de valeurs physiques).	python -m unittest test_etl_meteo.py
+quality_audit.py	Mesure du Taux d'Erreur : Se connecte à la base de données et calcule le Taux d'Anomalies en vérifiant la conformité des données aux contraintes physiques (ex: humidité entre 0 et 100 %).	python quality_audit.py
+
+
+
