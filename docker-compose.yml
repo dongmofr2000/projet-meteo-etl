@@ -1,0 +1,54 @@
+services:
+  # 1. Service MongoDB
+  mongodb:
+    image: mongo:latest
+    container_name: meteo_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      # Persistance des données sur la machine hôte
+      - mongo_data:/data/db
+    networks:
+      - etl_network
+    restart: always
+    
+    # Configuration de la vérification de santé :
+    # Assure que le conteneur n'est marqué comme 'healthy' que lorsque MongoDB accepte les connexions.
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand({ping: 1})"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s # Temps alloué pour le démarrage initial
+
+  # 2. Service Python (Pipeline E-T-L)
+  etl_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: meteo_etl_pipeline
+    
+    # Dépendance cruciale : ne démarre que si MongoDB est marqué comme 'healthy'
+    depends_on:
+      mongodb:
+        condition: service_healthy
+        
+    networks:
+      - etl_network
+      
+    # Exécute le script E-T-L principal
+    command: python etl_meteo.py
+    
+    # Variables d'environnement pour que le script trouve MongoDB
+    environment:
+      # L'URI utilise le nom du service Docker ('mongodb')
+      MONGO_URI: mongodb://mongodb:27017/meteo_projet
+      LOG_LEVEL: INFO
+
+networks:
+  etl_network:
+    driver: bridge
+
+volumes:
+  # Déclaration du volume pour la persistance des données de MongoDB
+  mongo_data:
