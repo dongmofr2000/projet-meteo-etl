@@ -3,7 +3,7 @@ from pymongo.errors import ConnectionFailure
 
 # --- Configuration MongoDB ---
 MONGO_URI = "mongodb://localhost:27017/" 
-MONGO_DATABASE = "meteo_projet"          # Base de données à auditer (changez si vous voulez auditer la DB de test)
+MONGO_DATABASE = "meteo_projet"          
 MONGO_COLLECTION = "donnees_horaires"
 
 # --- Contraintes de Qualité ---
